@@ -14,35 +14,89 @@ Proyecto desarrollado en PHP puro utilizando Composer para la gestión de depend
 
 ## Requisitos previos
 
-Antes de ejecutar el proyecto, asegúrate de tener instalado:
-
 - PHP 8 o superior.
 - Composer.
 - MySQL.
 - Visual Studio Code (opcional).
 
-## Instalación
+## 1. Crear un proyecto desde cero
 
-### 1. Clonar o descargar el proyecto
+Crear la carpeta del proyecto y acceder a ella:
 
 ```bash
-git clone URL_DEL_REPOSITORIO
+mkdir project-one
 cd project-one
 ```
 
-### 2. Instalar dependencias
-
-Ejecutar desde la raíz del proyecto:
+Inicializar Composer:
 
 ```bash
-composer install
+composer init
 ```
 
-Este comando instala las dependencias definidas en `composer.json` y `composer.lock`.
+Durante el asistente interactivo configurar los siguientes valores:
 
-### 3. Configurar las variables de entorno
+| Configuración | Valor |
+|---|---|
+| Package name | `app/project-one` |
+| Description | Descripción del proyecto |
+| Minimum Stability | `stable` |
+| Package Type | `project` |
+| License | Vacío (Enter) |
+| Define dependencies | `no` |
+| Define dev dependencies | `no` |
+| PSR-4 Autoload | `src/` |
 
-Crear un archivo `.env` en la raíz del proyecto:
+## 2. Crear la estructura de carpetas
+
+Desde la raíz del proyecto ejecutar:
+
+```bash
+mkdir public
+mkdir src
+mkdir src/Controllers
+mkdir src/Models
+mkdir src/Databases
+```
+
+## 3. Instalar dependencias
+
+Instalar PHP dotenv para gestionar variables de entorno:
+
+```bash
+composer require vlucas/phpdotenv
+```
+
+## 4. Configurar el autoload
+
+Composer configurará PSR-4 en `composer.json`.
+
+Ejemplo:
+
+```json
+{
+    "name": "app/project-one",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vendor\\ProjectOne\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
+```
+
+Para regenerar el autoload:
+
+```bash
+composer dump-autoload
+```
+
+## 5. Configurar las variables de entorno
+
+Crear un archivo `.env` en la raíz:
 
 ```env
 DB_HOST=127.0.0.1
@@ -53,7 +107,7 @@ DB_PASSWORD=
 
 Configurar las credenciales correspondientes a tu servidor MySQL.
 
-### 4. Crear la base de datos
+## 6. Crear la base de datos
 
 Ejecutar el siguiente script SQL:
 
@@ -70,15 +124,17 @@ CREATE TABLE usuarios (
 );
 ```
 
-### 5. Actualizar el autoload
+## 7. Instalar dependencias del proyecto
 
-Si se realizan modificaciones en la configuración PSR-4 de `composer.json`, ejecutar:
+Si estás descargando un proyecto existente:
 
 ```bash
-composer dump-autoload
+composer install
 ```
 
-## Ejecución del proyecto
+Este comando instala las dependencias definidas en `composer.json` y `composer.lock`.
+
+## 8. Ejecutar el proyecto
 
 Desde la raíz del proyecto ejecutar:
 
@@ -137,7 +193,7 @@ El proyecto utiliza una estructura basada en MVC:
 - **Databases:** centraliza la conexión a la base de datos.
 - **Public:** contiene los archivos de entrada y las interfaces accesibles desde el navegador.
 
-## Comandos de Composer
+## Comandos principales de Composer
 
 | Comando | Descripción |
 |---|---|
